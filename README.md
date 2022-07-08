@@ -12,7 +12,7 @@
 
 
 ## Movement Controls:
-The camera can be moved using the WASD keys while an object isn't selected. By selecting an object from the hierarchy (list of created object names on the left), the same controls can be used to move said object by also holding down the Left Shift key. All movement is relative to the facing direction of the object.
+The camera can be moved using the WASD keys while an object isn't selected. By selecting an object from the hierarchy (list of created object names on the left), the same controls can be used to move said object by also holding down the Left Control key. All movement is relative to the facing direction of the object.
 
 W = Forward  <br />
 A = Left  <br />
@@ -23,7 +23,7 @@ W + TAB = Up <br />
 S + TAB = Down <br />
 
 ## Rotation Controls:
-The following are the controls for rotation, which are again applicable to the camera and also the selected object with the addition of the Left Shift key. 
+The following are the controls for rotation, which are again applicable to the camera and also the selected object with the addition of the Left Control key. 
 
 E = Y-Axis Clockwise Rotation <br />
 Q = Y-Axis Anti-Clockwise Rotation <br />
@@ -35,7 +35,7 @@ E + CapsLock = X-Axis Anti-Clockwise Rotation <br />
 Q + CapsLock = X-Axis Clockwise Rotation <br />
 
 ## Scaling Controls:
-These are only applicable to a selected object, but the Left Shift key must still be held to use them.
+These are only applicable to a selected object, but the Left Control key must still be held to use them.
 
 X + UpArrow = X-Axis Increase Local Scale  <br />
 X + DownArrow = X-Axis Decrease Local Scale  <br />
