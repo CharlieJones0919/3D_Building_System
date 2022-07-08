@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,16 +32,6 @@ namespace BuildingSystem
             UIController.SelectShape(this);
         }
 
-        //public void RotateShape(Vector3 newRot)
-        //{
-        //    shape.transform.eulerAngles = newRot;
-        //}
-
-        //public void TransformShape(Vector3 newPos)
-        //{
-        //    shape.transform.position = newPos;
-        //}
-
         public void Destroy()
         {
             DestroyImmediate(shape);
@@ -51,10 +39,12 @@ namespace BuildingSystem
             DestroyImmediate(gameObject);
         }
 
+        public GameObject shape { get; private set; }
+
         public PrimitiveType type { get; private set; }
         public int typeID { get; private set; }
         public int totalID;
-        public GameObject shape { get; private set; }
+  
         [SerializeField] private Button selector;
         [SerializeField] private Text label;
     }

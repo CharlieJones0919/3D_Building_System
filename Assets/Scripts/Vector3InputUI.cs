@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,7 +28,7 @@ namespace BuildingSystem
 
         private List<float> GetValues()
         {
-            List<float> values = new List<float>(3);
+            List<float> values = new List<float>(inputFields.Length);
 
             foreach (InputField element in inputFields)
             {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -22,6 +20,7 @@ namespace BuildingSystem
 
 
         private static PrimitiveType[] supportedShapes = (PrimitiveType[])Enum.GetValues(typeof(PrimitiveType));
+
         // ^ An alternative in case custom shapes other than the primitive shapes are desired.
         /*
         private enum SupportedShapes { Capsule, Cube, Cylinder, Plane, Quad, Sphere }
@@ -31,9 +30,8 @@ namespace BuildingSystem
         private void Awake()
         {
             initialCamPos = Camera.main.transform.position;
-            UIController.Initialize(supportedShapes, hierarchyPanel, createPanel, editPanel, shapeInstancePrefab);
+            UIController.Initialize(supportedShapes, hierarchyPanel, shapeInstancePrefab);
             editPanel.Initialize(new VectorInputFunction[] { TransformSelection, RotateSelection, ScaleSelection });
-   
 
             if (shapeSpritesheetPath != null)
             {
@@ -41,7 +39,6 @@ namespace BuildingSystem
 
                 if (shapeSprites.Length != 0)
                 {
-
                     foreach (Sprite sprite in shapeSprites)
                     {
                         int creatorNum = 0;
@@ -50,7 +47,7 @@ namespace BuildingSystem
                             if (type.ToString() == sprite.name)
                             {
                                 CreatorUI newCreatorUI = Instantiate(creatorUIPrefab, createPanel.transform);
-                                newCreatorUI.Initialize(type, createPanel.rect.height * creatorNum, sprite, hierarchyPanel, shapeInstancePrefab);
+                                newCreatorUI.Initialize(type, createPanel.rect.height * creatorNum, sprite);
                                 break;
                             }
                             creatorNum++;
@@ -65,7 +62,7 @@ namespace BuildingSystem
 
         private void Update()
         {
-            if (UIController.IsSelection)
+            if (UIController.curSelection != null)
             {
                 if (createPanel.gameObject.activeSelf) { CloseCreatorPanel(); SetSelectionToUI(); }
 
@@ -92,37 +89,20 @@ namespace BuildingSystem
         {
             Vector3 newPos = subject.transform.position;
 
-            if (!Input.GetKey(KeyCode.Tab))
+            if (Input.GetKey(KeyCode.Tab)) // Up & Down
             {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    newPos += subject.transform.forward * cameraMoveSpeed * Time.deltaTime;
-                }
-                if (Input.GetKey(KeyCode.S))
-                {
-                    newPos -= subject.transform.forward * cameraMoveSpeed * Time.deltaTime;
-                }
+                if (Input.GetKey(KeyCode.W)) { newPos += subject.transform.up * cameraMoveSpeed * Time.deltaTime; }
+                if (Input.GetKey(KeyCode.S)) { newPos -= subject.transform.up * cameraMoveSpeed * Time.deltaTime; }
             }
-            else // Up & Down
+            else // Forward & Back
             {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    newPos += subject.transform.up * cameraMoveSpeed * Time.deltaTime;
-                }
-                if (Input.GetKey(KeyCode.S))
-                {
-                    newPos -= subject.transform.up * cameraMoveSpeed * Time.deltaTime;
-                }
+                if (Input.GetKey(KeyCode.W)) { newPos += subject.transform.forward * cameraMoveSpeed * Time.deltaTime; }
+                if (Input.GetKey(KeyCode.S)) { newPos -= subject.transform.forward * cameraMoveSpeed * Time.deltaTime; }
             }
 
-            if (Input.GetKey(KeyCode.A))
-            {
-                newPos -= subject.transform.right * cameraMoveSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                newPos += subject.transform.right * cameraMoveSpeed * Time.deltaTime;
-            }
+            // Left & Right
+            if (Input.GetKey(KeyCode.A)) { newPos -= subject.transform.right * cameraMoveSpeed * Time.deltaTime; }
+            if (Input.GetKey(KeyCode.D)) { newPos += subject.transform.right * cameraMoveSpeed * Time.deltaTime; }
 
             return newPos;
         }
@@ -133,36 +113,18 @@ namespace BuildingSystem
 
             if (Input.GetKey(KeyCode.Tab))
             {
-                if (Input.GetKey(KeyCode.Q))
-                {
-                    newRot -= subject.transform.forward * cameraRotateSpeed * Time.deltaTime;
-                }
-                if (Input.GetKey(KeyCode.E))
-                {
-                    newRot += subject.transform.forward * cameraRotateSpeed * Time.deltaTime;
-                }
+                if (Input.GetKey(KeyCode.Q)) { newRot -= subject.transform.forward * cameraRotateSpeed * Time.deltaTime; }
+                if (Input.GetKey(KeyCode.E)) { newRot += subject.transform.forward * cameraRotateSpeed * Time.deltaTime; }
             }
             else if (Input.GetKey(KeyCode.CapsLock))
             {
-                if (Input.GetKey(KeyCode.Q))
-                {
-                    newRot -= subject.transform.right * cameraRotateSpeed * Time.deltaTime;
-                }
-                if (Input.GetKey(KeyCode.E))
-                {
-                    newRot += subject.transform.right * cameraRotateSpeed * Time.deltaTime;
-                }
+                if (Input.GetKey(KeyCode.Q)) { newRot -= subject.transform.right * cameraRotateSpeed * Time.deltaTime; }
+                if (Input.GetKey(KeyCode.E)) { newRot += subject.transform.right * cameraRotateSpeed * Time.deltaTime; }
             }
             else
             {
-                if (Input.GetKey(KeyCode.Q))
-                {
-                    newRot -= subject.transform.up * cameraRotateSpeed * Time.deltaTime;
-                }
-                if (Input.GetKey(KeyCode.E))
-                {
-                    newRot += subject.transform.up * cameraRotateSpeed * Time.deltaTime;
-                }
+                if (Input.GetKey(KeyCode.Q)) { newRot -= subject.transform.up * cameraRotateSpeed * Time.deltaTime; }
+                if (Input.GetKey(KeyCode.E)) { newRot += subject.transform.up * cameraRotateSpeed * Time.deltaTime; }
             }
 
             return newRot;
@@ -204,7 +166,6 @@ namespace BuildingSystem
             {
                 UIController.curSelection.SetLabelText(editPanel.nameInput.text);
             }
-
             SetSelectionToUI();
         }
 
@@ -227,7 +188,7 @@ namespace BuildingSystem
 
         public void RotateSelection()
         {
-            UIController.curSelection.shape.transform.eulerAngles = editPanel.vector3UI[1].GetVec3();      
+            UIController.curSelection.shape.transform.eulerAngles = editPanel.vector3UI[1].GetVec3();
             SetSelectionToUI();
         }
 
@@ -256,13 +217,13 @@ namespace BuildingSystem
 
         public void DeselectSelected()
         {
-            UIController.DeselectSelection();
+            UIController.DeselectShape();
             OpenCreatorPanel();
         }
 
         public void DeleteSelected()
         {
-            UIController.DeleteSelection();
+            UIController.DeleteShape();
             OpenCreatorPanel();
         }
 

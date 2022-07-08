@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,8 +6,8 @@ namespace BuildingSystem
 {
     public class EditorUI : MonoBehaviour
     {
-        public InputField nameInput;
-        public List<Vector3InputUI> vector3UI = new List<Vector3InputUI>(3);
+        public InputField nameInput;   
+        public List<Vector3InputUI> vector3UI = new List<Vector3InputUI>(3); // Serializable list of the vector3 UI input elements (e.g. scale, position, etc). 
 
         public void Initialize(VectorInputFunction[] functions)
         {
@@ -20,7 +19,7 @@ namespace BuildingSystem
 
             for (int i = 0; i < vector3UI.Count; i++)
             {
-                vector3UI[i].SetInputFunction(functions[i]);
+                vector3UI[i].SetInputFunction(functions[i]); // Specifies the function in Builder to call at the end of input to set the values to the selected shape.
             }
         }
 

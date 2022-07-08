@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -9,25 +8,24 @@ namespace BuildingSystem
     {
         private const int listCapDefault = 50;
 
-        public static RectTransform hierPanel;
-       // public static EditorUI editPanel;
-        //private static RectTransform createPanel;
-
         public static ShapeInstance shapeInstPrefab;
-        private static float selectBttnHeight;
+        public static RectTransform hierPanel; // Where the hierarchy UI field's selector labels/buttons are stored.
+        private static float selectBttnHeight; // Keeps a record of the hierarchy UI element's content RectTransform's height on Awake as a basis of hierarchy element spacing.
 
         private static Dictionary<PrimitiveType, List<ShapeInstance>> shapeInstances;
         private static List<ShapeInstance> allCreated = new List<ShapeInstance>(listCapDefault);
-        public static ShapeInstance curSelection { get; private set; }
-        public static bool IsSelection => curSelection != null;
 
+        public static ShapeInstance curSelection { get; private set; }
+
+
+        // Just for debugging purposes to keep things neat. Didn't utilize it as much as expected.
         public static string[] errorMsgs =
         {
        /* 0 */ "No supported shapes icon spritesheet found in Resources folder specified path: {0}",
        /* 1 */ "The same number of functions have not been set to the Vector3 editor UI elements.",
         };
 
-        public static void Initialize(PrimitiveType[] supportedShapes, RectTransform hierarchyContent, RectTransform createUI, EditorUI editUI, ShapeInstance shapePrefab)
+        public static void Initialize(PrimitiveType[] supportedShapes, RectTransform hierarchyContent, ShapeInstance shapePrefab)
         {
             shapeInstances = new Dictionary<PrimitiveType, List<ShapeInstance>>(supportedShapes.Length);
 
@@ -39,11 +37,9 @@ namespace BuildingSystem
             hierPanel = hierarchyContent;
             selectBttnHeight = hierPanel.rect.height;
             shapeInstPrefab = shapePrefab;
-
-            //editPanel = editUI;
-            //createPanel = createUI;
         }
 
+        // Gets the next avilable label number (e.g. "Cube[2]"). Keeps the labels in order after a deletion.
         public static int GetAvailableTypeIDNum(PrimitiveType type)
         {
             IEnumerable<ShapeInstance> orderedInstances = shapeInstances[type].OrderBy(x => x.typeID);
@@ -70,38 +66,13 @@ namespace BuildingSystem
             allCreated.Add(newInstance);
 
             newInstance.MoveHierarchyPosition(selectBttnHeight);
-            hierPanel.sizeDelta += new Vector2(0, selectBttnHeight);
+            hierPanel.sizeDelta += new Vector2(0, selectBttnHeight); // The size of the Hierarchy Content's RectTransform needs to be scaled with the list items for the scroll wheel.
         }
 
-        //public static void NameSelection()
-        //{
-        //    if (!string.IsNullOrEmpty(editPanel.nameInput.text) && !string.IsNullOrWhiteSpace(editPanel.nameInput.text))
-        //    {
-        //        curSelection.SetLabelText(editPanel.nameInput.text);
-        //    }
+        public static void SelectShape(ShapeInstance instance) => curSelection = instance;
+        public static void DeselectShape() => curSelection = null;
 
-        //    SelectShape(curSelection);
-        //}
-
-        //public static void SetSelectionToUI()
-        //{
-        //    editPanel.SetValues(curSelection.GetLabelText(), curSelection.shape.transform.position, curSelection.shape.transform.rotation.eulerAngles);
-        //}
-
-        public static void SelectShape(ShapeInstance instance)
-        {
-           // SwapPanels(createPanel.gameObject, editPanel.gameObject);
-            curSelection = instance;
-            //SetSelectionToUI();
-        }
-
-        public static void DeselectSelection()
-        {
-            curSelection = null;
-            //SwapPanels(editPanel.gameObject, createPanel.gameObject);
-        }
-
-        public static void DeleteSelection()
+        public static void DeleteShape()
         {
             shapeInstances[curSelection.type].Remove(curSelection);
             allCreated.Remove(curSelection);
@@ -109,13 +80,13 @@ namespace BuildingSystem
             for (int i = curSelection.totalID; i < allCreated.Count; i++)
             {
                 allCreated[i].totalID--;
-                allCreated[i].MoveHierarchyPosition(selectBttnHeight);
+                allCreated[i].MoveHierarchyPosition(selectBttnHeight); // Moves the selection label/button in the Hierarchy UI upwards.
             }
 
-            hierPanel.sizeDelta -= new Vector2(0, selectBttnHeight);
+            hierPanel.sizeDelta -= new Vector2(0, selectBttnHeight); 
            
             curSelection.Destroy();
-            DeselectSelection();
+            DeselectShape();
         }
     }
 }

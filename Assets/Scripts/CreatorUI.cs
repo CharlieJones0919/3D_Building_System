@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,12 +5,10 @@ namespace BuildingSystem
 {
     public class CreatorUI : MonoBehaviour
     {
-        public void Initialize(PrimitiveType createType, float xPosition, Sprite buttonSprite, RectTransform hierContent, ShapeInstance shapeInstancePrefab, string UILabel = null)
+        public void Initialize(PrimitiveType createType, float xPosition, Sprite buttonSprite)
         {
             type = createType;
-
-            if (UILabel == null) { createLbl.text = type.ToString(); }
-            else { createLbl.text = UILabel; }
+            createLbl.text = type.ToString(); 
 
             createBttn.image.sprite = buttonSprite;
 
