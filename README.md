@@ -47,6 +47,7 @@ Z + UpArrow = Z-Axis Increase Local Scale  <br />
 Z + DownArrow = Z-Axis Decrease Local Scale  <br />
 
 # Missing Desired Delivery:
+- (Main) Instead of instantiating/destroying the shapes at runtime, creating default (object pool) list of each creators shapes that are deactivated from the scene to then activate when the respective creation buttons are pressed, then reset and hidden again when "deleted."
 - Parenting/grouping of shapes from/to one another.
 - Shape material/colour editing.
 - Assigning of the material without using GameObject.GetComponent<T>(). (Was a last minute ammendment).
