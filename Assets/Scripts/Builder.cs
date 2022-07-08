@@ -167,7 +167,7 @@ namespace BuildingSystem
         {
             if (!string.IsNullOrEmpty(editPanel.nameInput.text) && !string.IsNullOrWhiteSpace(editPanel.nameInput.text))
             {
-                UIController.curSelection.SetLabelText(editPanel.nameInput.text);
+                UIController.curSelection.SetLabelText(editPanel.nameInput.text);       
             }
             SetSelectionToUI();
         }

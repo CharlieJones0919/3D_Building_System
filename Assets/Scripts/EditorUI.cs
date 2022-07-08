@@ -6,13 +6,13 @@ namespace BuildingSystem
 {
     public class EditorUI : MonoBehaviour
     {
-        public InputField nameInput;   
+        public InputField nameInput;
         public List<Vector3InputUI> vector3UI = new List<Vector3InputUI>(3); // Serializable list of the vector3 UI input elements (e.g. scale, position, etc). 
 
         public void Initialize(VectorInputFunction[] functions)
         {
-            if (functions.Length != vector3UI.Count) 
-            { 
+            if (functions.Length != vector3UI.Count)
+            {
                 Debug.LogError(UIController.errorMsgs[1]);
                 return;
             }
