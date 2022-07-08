@@ -10,7 +10,9 @@ namespace BuildingSystem
             type = shapeType;
             typeID = UIController.GetAvailableTypeIDNum(type);
             SetLabelText(string.Format("{0} [{1}]", type.ToString(), typeID));
+
             shape = GameObject.CreatePrimitive(type);
+            shape.GetComponent<Renderer>().material = UIController.shapeDefaultMat;
         }
 
         public string GetLabelText() => label.text;

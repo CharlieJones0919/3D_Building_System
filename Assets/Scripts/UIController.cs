@@ -9,6 +9,8 @@ namespace BuildingSystem
         private const int listCapDefault = 50;
 
         public static ShapeInstance shapeInstPrefab;
+        public static Material shapeDefaultMat;
+
         public static RectTransform hierPanel; // Where the hierarchy UI field's selector labels/buttons are stored.
         private static float selectBttnHeight; // Keeps a record of the hierarchy UI element's content RectTransform's height on Awake as a basis of hierarchy element spacing.
 
@@ -25,7 +27,7 @@ namespace BuildingSystem
        /* 1 */ "The same number of functions have not been set to the Vector3 editor UI elements.",
         };
 
-        public static void Initialize(PrimitiveType[] supportedShapes, RectTransform hierarchyContent, ShapeInstance shapePrefab)
+        public static void Initialize(PrimitiveType[] supportedShapes, RectTransform hierarchyContent, ShapeInstance shapePrefab, Material defaultMat)
         {
             shapeInstances = new Dictionary<PrimitiveType, List<ShapeInstance>>(supportedShapes.Length);
 
@@ -37,6 +39,7 @@ namespace BuildingSystem
             hierPanel = hierarchyContent;
             selectBttnHeight = hierPanel.rect.height;
             shapeInstPrefab = shapePrefab;
+            shapeDefaultMat = defaultMat;
         }
 
         // Gets the next avilable label number (e.g. "Cube[2]"). Keeps the labels in order after a deletion.

@@ -1792,6 +1792,7 @@ MonoBehaviour:
   hierarchyPanel: {fileID: 491028320}
   editPanel: {fileID: 160588573}
   creatorUIPrefab: {fileID: 35555911, guid: 12c421bf7fb2818429233c8cc12c160a, type: 3}
+  defaultShapeMat: {fileID: 2100000, guid: 5b2960d1f343e294685ffa3cbaf1d967, type: 2}
   shapeSpritesheetPath: UI Icons/CreatorShapeSprites
   shapeInstancePrefab: {fileID: 8114846844549960780, guid: 5f5caa5ce45df4b4aa1ee85dcc1d3015, type: 3}
 --- !u!1001 &1657419202

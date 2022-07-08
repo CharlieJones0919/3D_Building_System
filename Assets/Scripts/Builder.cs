@@ -15,6 +15,7 @@ namespace BuildingSystem
         [SerializeField] private EditorUI editPanel;
 
         [SerializeField] private CreatorUI creatorUIPrefab;
+        [SerializeField] private Material defaultShapeMat;
         [SerializeField] private string shapeSpritesheetPath = "UI Icons/CreatorShapeSprites";
         [SerializeField] private ShapeInstance shapeInstancePrefab;
 
@@ -30,7 +31,7 @@ namespace BuildingSystem
         private void Awake()
         {
             initialCamPos = Camera.main.transform.position;
-            UIController.Initialize(supportedShapes, hierarchyPanel, shapeInstancePrefab);
+            UIController.Initialize(supportedShapes, hierarchyPanel, shapeInstancePrefab, defaultShapeMat);
             editPanel.Initialize(new VectorInputFunction[] { TransformSelection, RotateSelection, ScaleSelection });
 
             if (shapeSpritesheetPath != null)
@@ -62,6 +63,8 @@ namespace BuildingSystem
 
         private void Update()
         {
+            if (Input.GetKey(KeyCode.Escape)) { Application.Quit(); }
+
             if (UIController.curSelection != null)
             {
                 if (createPanel.gameObject.activeSelf) { CloseCreatorPanel(); SetSelectionToUI(); }
