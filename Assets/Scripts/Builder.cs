@@ -169,7 +169,7 @@ namespace BuildingSystem
             {
                 UIController.curSelection.SetLabelText(editPanel.nameInput.text);       
             }
-            SetSelectionToUI();
+            //SetSelectionToUI();
         }
 
         public void TransformSelection()
