@@ -121,8 +121,8 @@ namespace BuildingSystem
             }
             else if (Input.GetKey(KeyCode.CapsLock))
             {
-                if (Input.GetKey(KeyCode.Q)) { newRot -= subject.transform.right * cameraRotateSpeed * Time.deltaTime; }
-                if (Input.GetKey(KeyCode.E)) { newRot += subject.transform.right * cameraRotateSpeed * Time.deltaTime; }
+                if (Input.GetKey(KeyCode.Q)) { newRot += subject.transform.right * cameraRotateSpeed * Time.deltaTime; }
+                if (Input.GetKey(KeyCode.E)) { newRot -= subject.transform.right * cameraRotateSpeed * Time.deltaTime; }
             }
             else
             {
