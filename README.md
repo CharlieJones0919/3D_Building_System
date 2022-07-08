@@ -44,3 +44,10 @@ Y + DownArrow = Y-Axis Decrease Local Scale  <br />
  
 Z + UpArrow = Z-Axis Increase Local Scale  <br />
 Z + DownArrow = Z-Axis Decrease Local Scale  <br />
+
+# Missing Desired Delivery:
+- Parenting/grouping of shapes from/to one another.
+- Shape material/colour editing.
+- Assigning of the material without using GameObject.GetComponent<T>(). (Was a last minute ammendment).
+- In drastic need of further comments/documentation. (Compromised time spent documenting for class design).
+
