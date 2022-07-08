@@ -8,6 +8,7 @@
 - Delete shapes by selecting them, then left-clicking the button on the far right of the Creation panel.
 - There is a button in the bottom left to reset the camera's position & rotation.
 - When the panel is full, the Hierarchy panel's contents can be scrolled through.
+- ESC to exit application.
 
 
 ## Movement Controls:
