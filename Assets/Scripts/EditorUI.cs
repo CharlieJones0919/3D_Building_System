@@ -9,7 +9,7 @@ namespace BuildingSystem
         public InputField nameInput;
         public List<Vector3InputUI> vector3UI = new List<Vector3InputUI>(3); // Serializable list of the vector3 UI input elements (e.g. scale, position, etc). 
 
-        public void Initialize(VectorInputFunction[] functions)
+        public void Initialize(ParamFunction[] functions)
         {
             if (functions.Length != vector3UI.Count)
             {
@@ -25,7 +25,13 @@ namespace BuildingSystem
 
         public void SetSelectedValues()
         {
-            nameInput.text = UIController.curSelection.GetLabelText();
+            string curLabel = UIController.curSelection.label.text; ;
+            if (!string.IsNullOrEmpty(curLabel) && !string.IsNullOrWhiteSpace(curLabel))
+            {
+                nameInput.text = curLabel;
+            }
+
+            nameInput.text = UIController.curSelection.label.text;
             vector3UI[0].SetValues(UIController.curSelection.shape.transform.position);
             vector3UI[1].SetValues(UIController.curSelection.shape.transform.rotation.eulerAngles);
             vector3UI[2].SetValues(UIController.curSelection.shape.transform.localScale);

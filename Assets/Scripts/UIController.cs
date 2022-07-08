@@ -7,6 +7,8 @@ namespace BuildingSystem
     public static class UIController
     {
         private const int listCapDefault = 50;
+        public static Color unSelectedCol = Color.black ;
+        public static Color selectedCol = Color.green;
 
         public static ShapeInstance shapeInstPrefab;
         public static Material shapeDefaultMat;
@@ -18,6 +20,7 @@ namespace BuildingSystem
         private static List<ShapeInstance> allCreated = new List<ShapeInstance>(listCapDefault);
 
         public static ShapeInstance curSelection { get; private set; }
+        private static EditorUI outputUI;
 
 
         // Just for debugging purposes to keep things neat. Didn't utilize it as much as expected.
@@ -27,17 +30,19 @@ namespace BuildingSystem
        /* 1 */ "The same number of functions have not been set to the Vector3 editor UI elements.",
         };
 
-        public static void Initialize(PrimitiveType[] supportedShapes, RectTransform hierarchyContent, ShapeInstance shapePrefab, Material defaultMat)
+        public static void Initialize(PrimitiveType[] supportedShapes, EditorUI editPanel, RectTransform hierarchyContent, ShapeInstance shapePrefab, Material defaultMat)
         {
             shapeInstances = new Dictionary<PrimitiveType, List<ShapeInstance>>(supportedShapes.Length);
-
             foreach (PrimitiveType shapeType in supportedShapes)
             {
                 shapeInstances.Add(shapeType, new List<ShapeInstance>(listCapDefault));
             }
 
+            outputUI = editPanel;
+
             hierPanel = hierarchyContent;
             selectBttnHeight = hierPanel.rect.height;
+
             shapeInstPrefab = shapePrefab;
             shapeDefaultMat = defaultMat;
         }
@@ -72,8 +77,23 @@ namespace BuildingSystem
             hierPanel.sizeDelta += new Vector2(0, selectBttnHeight); // The size of the Hierarchy Content's RectTransform needs to be scaled with the list items for the scroll wheel.
         }
 
-        public static void SelectShape(ShapeInstance instance) => curSelection = instance;
-        public static void DeselectShape() => curSelection = null;
+        public static void SelectShape(ShapeInstance instance)
+        {
+            if (curSelection != null) DeselectShape();
+
+            curSelection = instance;
+            curSelection.label.color = selectedCol;
+            curSelection.label.fontStyle = FontStyle.BoldAndItalic;
+
+            outputUI.nameInput.text = curSelection.label.text;
+            outputUI.SetSelectedValues();
+        } 
+        public static void DeselectShape()
+        {
+            curSelection.label.color = unSelectedCol;
+            curSelection.label.fontStyle = FontStyle.Normal;
+            curSelection = null;
+        } 
 
         public static void DeleteShape()
         {
@@ -86,10 +106,12 @@ namespace BuildingSystem
                 allCreated[i].MoveHierarchyPosition(selectBttnHeight); // Moves the selection label/button in the Hierarchy UI upwards.
             }
 
-            hierPanel.sizeDelta -= new Vector2(0, selectBttnHeight); 
+            hierPanel.sizeDelta -= new Vector2(0, selectBttnHeight);
+
+            ShapeInstance temp = curSelection;
            
-            curSelection.Destroy();
             DeselectShape();
+            temp.Destroy();  
         }
     }
 }

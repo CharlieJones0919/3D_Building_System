@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 namespace BuildingSystem
 {
-    public delegate void VectorInputFunction();
+    public delegate void ParamFunction();
 
     public class Vector3InputUI : MonoBehaviour
     {
         [SerializeField] private InputField[] inputFields;
 
-        public void SetInputFunction(VectorInputFunction func) 
+        public void SetInputFunction(ParamFunction func) 
         {
             foreach (InputField element in inputFields)
             {

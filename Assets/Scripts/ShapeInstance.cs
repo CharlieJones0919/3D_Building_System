@@ -9,24 +9,17 @@ namespace BuildingSystem
         {
             type = shapeType;
             typeID = UIController.GetAvailableTypeIDNum(type);
-            SetLabelText(string.Format("{0} [{1}]", type.ToString(), typeID));
+            label.text = string.Format("{0} [{1}]", type.ToString(), typeID);
 
             shape = GameObject.CreatePrimitive(type);
             shape.GetComponent<Renderer>().material = UIController.shapeDefaultMat;
         }
-
-        public string GetLabelText() => label.text;
 
         public void MoveHierarchyPosition(float heightOffset)
         {
             Vector3 selectorPos = Vector3.zero;
             selectorPos.y -= heightOffset * totalID;
             selector.gameObject.transform.localPosition = selectorPos;
-        }
-
-        public void SetLabelText(string newLabel)
-        {
-            label.text = newLabel;
         }
 
         public void SelectShape()
@@ -42,12 +35,11 @@ namespace BuildingSystem
         }
 
         public GameObject shape { get; private set; }
-
         public PrimitiveType type { get; private set; }
         public int typeID { get; private set; }
         public int totalID;
   
         [SerializeField] private Button selector;
-        [SerializeField] private Text label;
+        public Text label;
     }
 }

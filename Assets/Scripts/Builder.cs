@@ -31,8 +31,8 @@ namespace BuildingSystem
         private void Awake()
         {
             initialCamPos = Camera.main.transform.position;
-            UIController.Initialize(supportedShapes, hierarchyPanel, shapeInstancePrefab, defaultShapeMat);
-            editPanel.Initialize(new VectorInputFunction[] { TransformSelection, RotateSelection, ScaleSelection });
+            UIController.Initialize(supportedShapes, editPanel, hierarchyPanel, shapeInstancePrefab, defaultShapeMat);
+            editPanel.Initialize(new ParamFunction[] { TransformSelection, RotateSelection, ScaleSelection });
 
             if (shapeSpritesheetPath != null)
             {
@@ -69,7 +69,7 @@ namespace BuildingSystem
             {
                 if (createPanel.gameObject.activeSelf) { CloseCreatorPanel(); SetSelectionToUI(); }
 
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (Input.GetKey(KeyCode.LeftControl))
                 {
                     TransformSelection(GetInputMovement(UIController.curSelection.shape.transform));
                     RotateSelection(GetInputRotation(UIController.curSelection.shape.transform));
@@ -167,9 +167,8 @@ namespace BuildingSystem
         {
             if (!string.IsNullOrEmpty(editPanel.nameInput.text) && !string.IsNullOrWhiteSpace(editPanel.nameInput.text))
             {
-                UIController.curSelection.SetLabelText(editPanel.nameInput.text);       
+                UIController.curSelection.label.text = editPanel.nameInput.text;       
             }
-            //SetSelectionToUI();
         }
 
         public void TransformSelection()
