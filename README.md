@@ -52,4 +52,5 @@ Z + DownArrow = Z-Axis Decrease Local Scale  <br />
 - Shape material/colour editing.
 - Assigning of the material without using GameObject.GetComponent<T>(). (Was a last minute ammendment).
 - In drastic need of further comments/documentation. (Compromised time spent documenting for class design).
+- Missing icons for the shape delete and camera reset buttons.
 
